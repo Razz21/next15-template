@@ -1,5 +1,6 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
 import { FlatCompat } from "@eslint/eslintrc";
 import eslintConfigPrettier from "eslint-config-prettier";
 
@@ -16,6 +17,7 @@ const eslintConfig = [
   eslintConfigPrettier,
   {
     rules: {
+      "@typescript-eslint/no-empty-object-type": "warn",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
@@ -24,6 +26,29 @@ const eslintConfig = [
           varsIgnorePattern: "^_",
         },
       ],
+      "react/display-name": "off",
+      "import/order": [
+        "error",
+        {
+          groups: ["builtin", "external", ["internal", "parent", "sibling", "index"]],
+          "newlines-between": "always",
+          alphabetize: { order: "asc", caseInsensitive: true },
+          pathGroups: [
+            {
+              pattern: "react",
+              group: "external",
+              position: "before",
+            },
+            {
+              pattern: "next/**",
+              group: "external",
+              position: "before",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["react"],
+        },
+      ],
+      "no-multiple-empty-lines": ["error", { max: 1, maxBOF: 1, maxEOF: 0 }],
     },
   },
 ];
